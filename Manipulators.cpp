@@ -14,7 +14,7 @@ int main()
 
 //using endl
 
-cout<<"My name is Anusha"<<endl;
+cout<<"My name is Deepthi"<<endl;
 
 //using ends
 
@@ -26,9 +26,7 @@ cout<<endl;
 
 //using ws
 
-istringstream str("
-
-Anusha");
+istringstream str("Deepthi");
 
 string name; getline(str>>ws,name);
 
@@ -42,7 +40,7 @@ cout<<name<<endl;
 
 //setfill
 
-cout<<setfill('*')<<setw(12)<<"Hi Anusha\n";
+cout<<setfill('*')<<setw(12)<<"Hi Deepthi\n";
 
 //fills the space given by setw
 //setprecision
