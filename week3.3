@@ -1,0 +1,40 @@
+#include<iostream>
+using namespace std;
+class Student
+{
+public:
+string fullName,collegeName;
+int rollNum,collegeCode;;
+double semPercentage;
+Student(string name, string cName, int rollnum, int cCode, double percent) 
+{
+  fullName = name;
+  rollNum= rollnum;
+  semPercentage=percent;
+  collegeName=cName;
+  collegeCode=cCode;
+}
+~Student() //destructor
+{
+  cout << "Destructs the constructer..." << endl;
+}
+void display()
+{
+  cout << "Name : " << fullName << endl;
+  cout << "Roll number : " << rollNum << endl;
+  cout << "college Name : " << collegeName << endl;
+  cout << "sem percentage : " << semPercentage << endl;
+  cout << "college code : " << collegeCode << endl;
+}
+};
+int main()
+{
+  string name,cName;
+  int rollnum,cCode;
+  double percent;
+  cout << "enter your name,college name,roll number, college code, sem percentage : " ;
+  cin >> name >> cName >> rollnum >> cCode >> percent ;
+  Student obj(name,cName,rollnum,cCode,percent);
+  obj.display();
+  return 0;
+}
