@@ -1,0 +1,47 @@
+#include<iostream>
+using namespace std;
+class Student
+{
+  public:
+  string collegeName;
+  int collegeCode;
+  double per;
+  string name;
+  double semPercentage;
+  Student() 
+  {
+    collegeName="MVGR";
+    collegeCode=33;
+  }
+  Student(string fullname, float percent) //parameterized constructor
+  {
+    name=fullname;
+    per=percent;
+  }
+  void display()
+  {
+    cout << "Name : " << name << endl;
+    cout << "sem percentage : " << per << endl;
+  }
+  void display1()
+  {
+    cout << "college Name : " << collegeName << endl;
+    cout << "college code : " << collegeCode << endl;
+  }
+  ~Student() 
+{
+
+}
+};
+int main()
+{
+  string fullName;
+  double semPercentage;
+  cout << "Enter your name and sem percentage : " << endl;
+  cin >> fullName >> semPercentage;
+  Student obj;
+  obj.display1();
+  Student obj1(fullName, semPercentage);
+  obj1.display();
+  return 0;
+}
