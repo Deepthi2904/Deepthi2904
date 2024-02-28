@@ -1,0 +1,22 @@
+#include<iostream>
+#include "boxArea.h"
+#include "boxVolume.h"
+#define height 10
+using namespace std;
+int main()
+{
+  float length,width;
+  cout << "Enter length and width : " << endl;
+  cin >> length >> width;
+  #ifdef height
+  boxArea(length,width);
+  boxVolume(length,width,height);
+  #endif
+  #ifndef height
+  #endif
+  #undef height
+  #define height 20
+  boxArea(length,width);
+  boxVolume(length,width,height);
+  return 0;
+}
