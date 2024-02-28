@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+inline void displayWelcome() 
+{
+  cout << "Welcome" << endl;
+}
+class Box
+{
+  public:
+  void boxVolume(float l, float w, float h);
+  friend void displayBoxDimensions(Box obj); 
+  void boxArea(float l, float w)
+  {
+    cout << "Area : " << l*w << endl; //member function inside the class
+  }
+};
+void Box :: boxVolume(float l,float w,float h)
+{
+  cout << "volume of the box : " << l*w*h <<endl; //member function outside the class
+}
+void displayBoxDimensions(float l,float w,float h)
+{
+  cout << "length : " << l << endl;
+  cout << "width : " << w << endl;
+  cout << "height : " << h << endl;
+}
+int main()
+{
+  Box obj;
+  float length,width,height;
+  displayWelcome();
+  cout << "Enter dimensions : " << endl;
+  cin >> length >> width >> height; //Taking input from user
+  displayBoxDimensions(length,width,height);
+  obj.boxArea(length,width);
+  obj.boxVolume(length,width,height);
+  return 0;
+}
