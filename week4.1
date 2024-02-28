@@ -1,0 +1,47 @@
+import java.util.*;
+public class ConstDestJava
+{
+  String name;
+  int idNum;
+  double percentage;
+  String cName;
+  int cCode;
+  ConstDestJava(String fullName,String collegeName, int rollNum, int collegeCode, double semPercentage) 
+  {
+    name = fullName;
+    cName = collegeName;
+    idNum = rollNum;
+    cCode = collegeCode;
+    percentage = semPercentage;
+  }
+  void display()
+  {
+    System.out.println("College Name : "+ cName);
+    System.out.println("College code : "+ cCode);
+    System.out.println("Roll Number : "+ idNum);
+    System.out.println("Full Name : "+ name);
+    System.out.println("Sem Percentage : "+ percentage);
+  }
+  protected void finalize() throws Throwable{ System.out.println("OBJECT DESTROYED");
+  }
+  public static void main(String[] args)
+  {
+    System.out.println("Student Details:");
+    Scanner input = new Scanner(System.in);
+    System.out.println("Enter your college Name: ");
+    String collegeName = input.nextLine();
+    System.out.println("Enter your name: ");
+    String fullName = input.nextLine();
+    System.out.println("Enter your roll number: ");
+    int rollNum = input.nextInt();
+    System.out.println("Enter your sem percentage: ");
+    double semPercentage = input.nextDouble();
+    System.out.println("Enter your college code: ");
+    int collegeCode = input.nextInt();
+    ConstDestJava obj = new
+    ConstDestJava(fullName,collegeName,rollNum,collegeCode,semPercentage);
+    obj.display();
+    obj=null;
+    System.gc();
+  }
+}
