@@ -1,33 +1,29 @@
-import java.util.*;
-class Student
-{
-  String collegeName,name;
-  int collegeCode;
-  double percentage;
-  Student(String fullName, double semPercentage)
-  {
-    collegeName = "MVGR";
-    collegeCode = 33;
-    name = fullName;
-    percentage = semPercentage;
-  }
-  void display()
-  {
-    System.out.println("college name : " +collegeName);
-    System.out.println("college code : " +collegeCode);
-    System.out.println("Full Name : " +name);
-    System.out.println("Sem percentage : " +percentage);
-  }
+import java.util.Scanner;
+class student3{
+    public 
+        String collegeName="MVGR";
+        int collegeCode=33;
+        student3(){
+            System.out.println("Collegename : "+collegeName+"\nCollegecode : "+collegeCode);
+        }
+        student3(String fullName, double semPerentage){
+            System.out.println("Name : "+fullName+"\nSempercentage : "+semPerentage);
+        }
+        String fullName;
+        double semPercentage;
+
 }
-class ParamConstJava
-{
-  public static void main (String[] args)
-  {
-    System.out.println("Enter your name and percentage : ");
-    Scanner input = new Scanner(System.in);
-    String fullName = input.nextLine();
-    double semPercentage = input.nextDouble();
-    Student obj = new Student(fullName,semPercentage);
-    obj.display();
-  }
+class classstudent {
+    public static void main(String[] args){
+        Scanner op=new Scanner(System.in);
+        student3 virat=new student3();
+        System.out.print("Enter name");
+        virat.fullName=op.next();
+        System.out.print("Enter Sempercentage");
+        virat.semPercentage=op.nextInt();
+        op.close();
+        student3 hi=new student3(virat.fullName,virat.semPercentage);
+
+    }
+
 }
