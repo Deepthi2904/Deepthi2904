@@ -1,18 +1,15 @@
-class college {
-    String collegeName = "MVGR";
-    int collegeCode = 33;
-}
+import java.util.HashMap;
+import java.util.Map;
 
-class student extends college {
-    String name = "Deepthi";
-    int roll = 509;
-}
-
-class SimpleInherit {
+public class mapInterface {
     public static void main(String[] args) {
-        student student1 = new student();
-        System.out.println("Student name: "+student1.name);
-        System.out.println("Student roll num : "+student1.roll);
-        System.out.println("Student college name : "+student1.collegeName);
+        Map<String,Integer> obj=new HashMap<String,Integer>();
+        obj.put("Divya", 1);
+        obj.put("Deepthi", 2);
+        obj.put("Sirisha", 3);
+        obj.put("Janu", 4);
+        for(Map.Entry<String,Integer> m:obj.entrySet()){
+            System.out.println(m.getKey()+" = "+m.getValue());
+        }
     }
 }
