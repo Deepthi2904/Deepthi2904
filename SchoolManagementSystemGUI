@@ -1,0 +1,660 @@
+	// Import necessary packages
+	import javax.swing.*;
+	import java.awt.*;
+	import java.awt.event.ActionEvent;
+	import java.awt.event.ActionListener;
+	import javax.xml.parsers.DocumentBuilder;
+	import javax.xml.parsers.DocumentBuilderFactory;
+	import javax.xml.parsers.ParserConfigurationException;
+	import javax.xml.transform.Transformer;
+	import javax.xml.transform.TransformerException;
+	import javax.xml.transform.TransformerFactory;
+	import javax.xml.transform.dom.DOMSource;
+	import javax.xml.transform.stream.StreamResult;
+	import org.w3c.dom.Document;
+	import org.w3c.dom.Element;
+	import org.xml.sax.SAXException;
+	import java.io.*;
+	import org.w3c.dom.NodeList;
+
+	
+	//Class definition
+	public class SchoolManagementSystemGUI {
+		// Class variables
+	    private JFrame frame;
+	    private JPanel panel;
+	
+	    // Constructor
+	    public SchoolManagementSystemGUI() {
+	    	// Initialize frame and panel
+	        frame = new JFrame("School Management System");
+	        panel = new JPanel(new BorderLayout());
+	        
+	        // Set panel background color
+	        panel.setBackground(Color.white);
+	        
+	        //Add heading
+	        JLabel titleLabel = new JLabel("Welcome to School Management System");
+	        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	        panel.add(titleLabel, BorderLayout.CENTER);
+	        
+	        //button logic
+	        JButton startButton = createStyledButton("Get Started!");
+	        startButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                openNewWindow();
+	                frame.dispose();
+	            }
+	        });
+	        panel.add(startButton, BorderLayout.SOUTH);
+	
+	        //code for winow height and width 
+	        frame.add(panel);
+	        frame.setSize(600, 600);
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setVisible(true);
+	        frame.setLocationRelativeTo(null);
+	    }
+	
+	    private JButton createStyledButton(String text) {
+	        JButton button = new JButton(text);
+	        button.setPreferredSize(new Dimension(150, 50));
+	        button.setBackground(Color.red);
+	        button.setForeground(Color.white);
+	        button.setFocusPainted(false);
+	        return button;
+	    }
+	    
+	    public class RoundedButton extends JButton {
+
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public RoundedButton(String text) {
+	            super(text);
+	            setContentAreaFilled(false);
+	            setFocusPainted(false);
+	        }
+
+	        @Override
+	        protected void paintComponent(Graphics g) {
+	            if (getModel().isArmed()) {
+	                g.setColor(Color.lightGray);
+	            } else {
+	                g.setColor(getBackground());
+	            }
+	            g.fillRoundRect(0, 0, getSize().width - 1, getSize().height - 1, 30, 30);
+	            super.paintComponent(g);
+	        }
+
+	        @Override
+	        protected void paintBorder(Graphics g) {
+	            g.setColor(getForeground());
+	            g.drawRoundRect(0, 0, getSize().width - 1, getSize().height - 1, 30, 30);
+	        }
+	    }
+
+	    private void openNewWindow() {
+	        JFrame newFrame = new JFrame("DASHBOARD");
+	        JPanel newPanel = new JPanel();
+	        newPanel.setBackground(Color.white);
+	        newFrame.add(newPanel);
+	        
+	        RoundedButton button1 = createRoundedButton("ADD STUDENT");
+	        button1.setPreferredSize(new Dimension(200, 200));
+	        button1.setBackground(new Color(102, 204, 255)); // Light blue
+	        button1.setForeground(Color.white);
+	        button1.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                openNewWindow2(newFrame);
+	                newFrame.dispose();
+	            }
+	        });
+	        newPanel.add(button1);
+	        
+	        RoundedButton button2 = createRoundedButton("GET DETAILS");
+	        button2.setPreferredSize(new Dimension(200, 200));
+	        button2.setBackground(new Color(128, 128, 128)); // Gray
+	        button2.setForeground(Color.white);
+	        button2.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                openNewWindow3(newFrame);
+	                newFrame.dispose();
+	            }
+	        });
+	        newPanel.add(button2);
+	        
+	        RoundedButton button3 = createRoundedButton("RESULTS");
+	        button3.setPreferredSize(new Dimension(200, 200));
+	        button3.setBackground(new Color(0, 153, 51)); // Dark green
+	        button3.setForeground(Color.white);
+	        button3.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                openNewWindow4(newFrame);
+	                newFrame.dispose();
+	            }
+	        });
+	        newPanel.add(button3);
+
+	        RoundedButton button4 = createRoundedButton("FEE PAYER");
+	        button4.setPreferredSize(new Dimension(200, 200));
+	        button4.setBackground(new Color(255, 255, 102)); // Light yellow
+	        button4.setForeground(Color.black);
+	        button4.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                openNewWindow5(newFrame);
+	                newFrame.dispose();
+	            }
+	        });
+	        newPanel.add(button4);
+	        
+	        RoundedButton button5 = createRoundedButton("OTHERS");
+	        button5.setPreferredSize(new Dimension(200, 130));
+	        button5.setBackground(new Color(255, 51, 51)); // Red
+	        button5.setForeground(Color.white);
+	        button5.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                openNewWindow6(newFrame);
+	                newFrame.dispose();
+	            }
+	        });
+	        newPanel.add(button5);
+
+	        newFrame.setSize(600, 600);
+	        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        newFrame.setVisible(true);
+	        newFrame.setLocationRelativeTo(null);
+	    }
+
+	    private RoundedButton createRoundedButton(String text) {
+	        RoundedButton button = new RoundedButton(text);
+	        button.setFont(new Font("Arial", Font.BOLD, 16)); // Set font if needed
+	        button.setFocusable(false);
+	        return button;
+	    }
+	    
+	    
+	    private void openNewWindow2(JFrame previousFrame) {
+	        JFrame newFrame2 = new JFrame("Add Student Details");
+	        JPanel newPanel2 = new JPanel(new BorderLayout());
+	        newPanel2.setBackground(Color.white);
+	        newFrame2.add(newPanel2);
+
+	        // Panel for input fields
+	        JPanel inputPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+	        inputPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+	        newPanel2.add(inputPanel, BorderLayout.CENTER);
+
+	        JTextField nameField = new JTextField();
+	        inputPanel.add(new JLabel("Name:"));
+	        inputPanel.add(nameField);
+
+	        JTextField dobField = new JTextField();
+	        inputPanel.add(new JLabel("Date of Birth:"));
+	        inputPanel.add(dobField);
+
+	        JTextField subjectField = new JTextField();
+	        inputPanel.add(new JLabel("Second Language:"));
+	        inputPanel.add(subjectField);
+
+	        JTextField idField = new JTextField();
+	        inputPanel.add(new JLabel("ID:"));
+	        inputPanel.add(idField);
+
+	        JTextField fatherNameField = new JTextField();
+	        inputPanel.add(new JLabel("Father's Name:"));
+	        inputPanel.add(fatherNameField);
+
+	        JTextField motherNameField = new JTextField();
+	        inputPanel.add(new JLabel("Mother's Name:"));
+	        inputPanel.add(motherNameField);
+
+	        JTextField phoneNumberField = new JTextField();
+	        inputPanel.add(new JLabel("Phone Number:"));
+	        inputPanel.add(phoneNumberField);
+
+	        JTextField altPhoneNumberField = new JTextField();
+	        inputPanel.add(new JLabel("Alternative Phone Number:"));
+	        inputPanel.add(altPhoneNumberField);
+
+	        // Create JComboBox for gender selection
+	        String[] genders = {"Male", "Female", "Other"};
+	        JComboBox<String> genderComboBox = new JComboBox<>(genders);
+	        inputPanel.add(new JLabel("Gender:"));
+	        inputPanel.add(genderComboBox);
+
+	        // Create JComboBox for group selection
+	        String[] groups = {"State", "CBSC"};
+	        JComboBox<String> groupComboBox = new JComboBox<>(groups);
+	        inputPanel.add(new JLabel("Group:"));
+	        inputPanel.add(groupComboBox);
+
+	        JTextField feeField = new JTextField();
+	        inputPanel.add(new JLabel("Total Fee:"));
+	        inputPanel.add(feeField);
+
+	        // Create buttons panel
+	        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	        
+
+	        // Create submit button
+	        JButton submitButton = createStyledButton("Submit");
+	        submitButton.setBackground(Color.decode("#FFBF00"));
+	        submitButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                if (nameField.getText().isEmpty() || dobField.getText().isEmpty()) {
+	                    JOptionPane.showMessageDialog(newFrame2, "Please fill in all the details.", "Error", JOptionPane.ERROR_MESSAGE);
+	                    return;
+	                }
+	                int option = JOptionPane.showConfirmDialog(newFrame2, "Are you sure you want to submit?", "Confirmation", JOptionPane.YES_NO_OPTION);
+	                if (option == JOptionPane.NO_OPTION) {
+	                    return;
+	                }
+	                // Collect student details
+	                //String id = "";
+	                String id = idField.getText();
+	                String name = nameField.getText();
+	                String dob = dobField.getText();
+	                String fatherName = fatherNameField.getText();
+	                String motherName = motherNameField.getText();
+	                String group = (String) groupComboBox.getSelectedItem();
+	                String subject = subjectField.getText();
+	                String gender = (String) genderComboBox.getSelectedItem();
+	                String phoneNumber = phoneNumberField.getText();
+	                String altPhoneNumber = altPhoneNumberField.getText();
+	                String fee = feeField.getText();
+	              
+	                // Store student details in XML
+	                storeStudentDetailsInXML(id, name, dob, fatherName, motherName, group, subject, gender, phoneNumber, altPhoneNumber, fee);
+	   
+	                newFrame2.dispose();
+	            }
+	        });
+	        buttonPanel.add(submitButton);
+
+	        // Create back button
+	        JButton backButton = createStyledButton("Back");
+	        backButton.setBackground(Color.decode("#E74C3C"));
+	        backButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                previousFrame.setVisible(true);
+	                newFrame2.dispose();
+	            }
+	        });
+	        buttonPanel.add(backButton);
+
+	        newPanel2.add(buttonPanel, BorderLayout.SOUTH);
+
+	        newFrame2.setSize(600, 600);
+	        newFrame2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        newFrame2.setVisible(true);
+	        newFrame2.setLocationRelativeTo(null);
+	    }
+
+	    private void storeStudentDetailsInXML(String id, String name, String dob, String fatherName, String motherName, String group, String subject, String gender, String phoneNumber, String altPhoneNumber, String fee) {
+	        
+	    	try {
+	            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	            DocumentBuilder builder = factory.newDocumentBuilder();
+	            Document doc;
+
+	            File file = new File("student_details.xml");
+	            if (file.exists()) {
+	                doc = builder.parse(file);
+	            } else {
+	                doc = builder.newDocument();
+	                Element rootElement = doc.createElement("Students");
+	                doc.appendChild(rootElement);
+	            }
+
+	            Element studentElement = doc.createElement("Student");
+	            studentElement.setAttribute("ID", id);
+
+	            // Add student details as child elements
+	            if (!name.isEmpty())
+	                studentElement.appendChild(createElement(doc, "Name", name));
+	            if (!dob.isEmpty())
+	                studentElement.appendChild(createElement(doc, "DOB", dob));
+	            if (!fatherName.isEmpty())
+	                studentElement.appendChild(createElement(doc, "FatherName", fatherName));
+	            if (!motherName.isEmpty())
+	                studentElement.appendChild(createElement(doc, "MotherName", motherName));
+	            if (!group.isEmpty())
+	                studentElement.appendChild(createElement(doc, "Group", group));
+	            if (!subject.isEmpty())
+	                studentElement.appendChild(createElement(doc, "Subject", subject));
+	            if (!gender.isEmpty())
+	                studentElement.appendChild(createElement(doc, "Gender", gender));
+	            if (!phoneNumber.isEmpty())
+	                studentElement.appendChild(createElement(doc, "PhoneNumber", phoneNumber));
+	            if (!altPhoneNumber.isEmpty())
+	                studentElement.appendChild(createElement(doc, "AltPhoneNumber", altPhoneNumber));
+	            if (!fee.isEmpty())
+	                studentElement.appendChild(createElement(doc, "Totalfee", fee));
+
+	            // Append student element to root
+	            if (doc.getDocumentElement() == null) {
+	                Element rootElement = doc.createElement("Students");
+	                doc.appendChild(rootElement);
+	                rootElement.appendChild(studentElement);
+	                
+	            } else {
+	                doc.getDocumentElement().appendChild(studentElement);
+	            }
+
+	            // Write XML content to a file
+	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	            Transformer transformer = transformerFactory.newTransformer();
+	            DOMSource source = new DOMSource(doc);
+	            StreamResult result = new StreamResult(new FileOutputStream("student_details.xml"));
+	            transformer.transform(source, result);
+	            
+	            System.out.println("XML saved to: " + file.getAbsolutePath());
+	            
+	        } catch (ParserConfigurationException | TransformerException | SAXException | IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    private Element createElement(Document doc, String name, String value) {
+	        Element element = doc.createElement(name);
+	        element.appendChild(doc.createTextNode(value));
+	        return element;
+	    }
+	    
+	    private String searchStudentDetails(String searchKey) {
+	        try {
+	            File file = new File("student_details.xml");
+	            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	            DocumentBuilder builder = factory.newDocumentBuilder();
+	            Document doc = builder.parse(file);
+
+	            // Get all student elements
+	            NodeList studentList = doc.getElementsByTagName("Student");
+
+	            // Loop through each student element
+	            for (int i = 0; i < studentList.getLength(); i++) {
+	                Element studentElement = (Element) studentList.item(i);
+	                String id = studentElement.getAttribute("ID");
+	                String name = studentElement.getElementsByTagName("Name").item(0).getTextContent();
+
+	                // Check if searchKey matches ID or Name
+	                if (id.equals(searchKey) || name.equalsIgnoreCase(searchKey)) {
+	                    // Return student details
+	                    return "ID: " + id + "\nName: " + name + "\nDOB: " + studentElement.getElementsByTagName("DOB").item(0).getTextContent() +
+	                           "\nFather's Name: " + studentElement.getElementsByTagName("FatherName").item(0).getTextContent() +
+	                           "\nMother's Name: " + studentElement.getElementsByTagName("MotherName").item(0).getTextContent() +
+	                           "\nGroup: " + studentElement.getElementsByTagName("Group").item(0).getTextContent() +
+	                           "\nSubject: " + studentElement.getElementsByTagName("Subject").item(0).getTextContent() +
+	                           "\nGender: " + studentElement.getElementsByTagName("Gender").item(0).getTextContent() +
+	                           "\nPhone Number: " + studentElement.getElementsByTagName("PhoneNumber").item(0).getTextContent() +
+	                           "\nAlternative Phone Number: " + studentElement.getElementsByTagName("AltPhoneNumber").item(0).getTextContent() +
+	                           "\nTotal Fee: " + studentElement.getElementsByTagName("Totalfee").item(0).getTextContent();
+	                }
+	            }
+	        } catch (ParserConfigurationException | SAXException | IOException e) {
+	            e.printStackTrace();
+	        }
+	        return null; // Return null if student not found
+	    }
+
+	    
+	    //Get Details Window things
+	    private void openNewWindow3(JFrame previousFrame) {
+	        JFrame newFrame3 = new JFrame("Get Details Window");
+	        JPanel newPanel3 = new JPanel();
+	        newPanel3.setBackground(Color.white);
+	        newPanel3.setLayout(new BoxLayout(newPanel3, BoxLayout.Y_AXIS));
+	        newFrame3.add(newPanel3);
+
+	        JLabel detailsLabel = new JLabel("Please provide the details:");
+	        newPanel3.add(detailsLabel);
+
+	        JTextField searchField = new JTextField(20);
+	        searchField.setPreferredSize(new Dimension(300, 30));
+	        JButton searchButton = new JButton("Search");
+	        searchButton.setBackground(Color.decode("#FFBF00"));
+	        searchButton.setPreferredSize(new Dimension(100, 30));
+	        searchButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                String searchKey = searchField.getText().trim();
+	                String studentDetails = searchStudentDetails(searchKey);
+	                if (studentDetails != null) {
+	                    // Display student details in a pop-up
+	                    JOptionPane.showMessageDialog(newFrame3, studentDetails, "Student Details", JOptionPane.INFORMATION_MESSAGE);
+	                } else {
+	                    JOptionPane.showMessageDialog(newFrame3, "Student not found.", "Error", JOptionPane.ERROR_MESSAGE);
+	                }
+	            }
+	        });
+
+	        // Create panels for search field and button
+	        JPanel searchPanel = new JPanel();
+	        searchPanel.add(new JLabel("Search by ID/Name: "));
+	        searchPanel.add(searchField);
+	        searchPanel.add(searchButton);
+
+	        newPanel3.add(searchPanel);
+
+	        JButton backButton = createStyledButton("Back");
+	        backButton.setBackground(Color.decode("#E74C3C"));
+	        backButton.setPreferredSize(new Dimension(100, 40));
+	        backButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                previousFrame.setVisible(true);
+	                newFrame3.dispose();
+	            }
+	        });
+	        backButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+	        newPanel3.add(backButton);
+
+	        newFrame3.setSize(600, 600);
+	        newFrame3.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        newFrame3.setVisible(true);
+	        newFrame3.setLocationRelativeTo(null);
+	    }
+		    
+		 // Method to open window for viewing results
+		private void openNewWindow4(JFrame previousFrame) {
+		        // Create a new JFrame for displaying results
+		        JFrame newFrame4 = new JFrame("Results");
+		        // Create a JPanel to hold components
+		        JPanel newPanel4 = new JPanel();
+		        newPanel4.setBackground(Color.white);
+		        newFrame4.add(newPanel4);
+	
+		        // Add a label to describe the purpose of the window
+		        JLabel resultsLabel = new JLabel("Results:");
+		        newPanel4.add(resultsLabel);
+	
+		        // Add a JTextArea to display the results
+		        JTextArea resultsArea = new JTextArea(10, 50);
+		        resultsArea.setEditable(false);
+		        
+		        // Add a JScrollPane to enable scrolling if results overflow
+		        JScrollPane scrollPane = new JScrollPane(resultsArea);
+		        newPanel4.add(scrollPane);
+	
+		        // Add a button to go back to the previous window
+		        JButton backButton = createStyledButton("Back");
+		        backButton.setBackground(Color.decode("#E74C3C"));
+		        backButton.setPreferredSize(new Dimension(100, 40));
+		        backButton.addActionListener(new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                previousFrame.setVisible(true); 
+		                // Show the previous frame
+		                newFrame4.dispose(); 
+		                // Close the current frame
+		            }
+		        });
+		        
+		        // Add the back button to the panel
+		        newPanel4.add(backButton);
+	
+		        // Configure frame settings
+		        newFrame4.setSize(600, 600);
+		        newFrame4.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		        newFrame4.setVisible(true);
+		        newFrame4.setLocationRelativeTo(null);
+		    }
+	
+	
+	    //Fee payern things
+	    private void openNewWindow5(JFrame previousFrame) {
+	        JFrame newFrame = new JFrame("Fee Payer");
+	        JPanel mainPanel = new JPanel(new BorderLayout());
+	        mainPanel.setBackground(Color.WHITE);
+	        newFrame.add(mainPanel);
+	
+	        // Panel for input fields
+	        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 5, 5));
+	        inputPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+	        mainPanel.add(inputPanel, BorderLayout.CENTER);
+	
+	        JLabel totalFeeLabel = new JLabel("Total Fee:");
+	        JLabel totalFeeValueLabel = new JLabel("100000"); 
+	
+	        JLabel paymentMethodLabel = new JLabel("Payment Method: ");
+	        JComboBox<String> paymentMethodComboBox = new JComboBox<>(new String[]{"Credit Card", "Debit Card", "Bank Transfer", "PayPal", "Cash"});
+	        inputPanel.add(paymentMethodLabel);
+	        inputPanel.add(paymentMethodComboBox);
+	        
+	        // Labels and fields for fee amount and payment method
+	        JLabel amountLabel = new JLabel("Amount: ");
+	        JTextField amountField = new JTextField(10);
+	        inputPanel.add(amountLabel);
+	        inputPanel.add(amountField);
+	
+	        // Display total fee, paid fee, and balance
+	        JPanel infoPanel = new JPanel(new GridLayout(3, 2));
+	        infoPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+	        mainPanel.add(infoPanel, BorderLayout.NORTH);
+	        
+	        
+	        JLabel paidFeeLabel = new JLabel("Paid Fee:");
+	        JLabel paidFeeValueLabel = new JLabel(" "); 
+	        JLabel balanceLabel = new JLabel("Balance:");
+	        JLabel balanceValueLabel = new JLabel(" ");
+	
+	        infoPanel.add(totalFeeLabel);
+	        infoPanel.add(totalFeeValueLabel);
+	        infoPanel.add(paidFeeLabel);
+	        infoPanel.add(paidFeeValueLabel);
+	        infoPanel.add(balanceLabel);
+	        infoPanel.add(balanceValueLabel);
+	
+	      
+	        // Create a panel for buttons with FlowLayout
+	        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	        
+	
+	        // Back button
+	        JButton backButton = new JButton("Back");
+	        backButton.setBackground(Color.decode("#E74C3C"));
+	        backButton.setPreferredSize(new Dimension(100, 40));
+	        backButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                // Close the current frame
+	                newFrame.dispose();
+	                // Open the previous frame
+	                previousFrame.setVisible(true);
+	            }
+	        });
+	        buttonPanel.add(backButton);
+	
+	        // Submit button
+	        JButton submitButton = new JButton("Submit");
+	        submitButton.setBackground(Color.decode("#FFBF00"));
+	        submitButton.setPreferredSize(new Dimension(100, 40));
+	        submitButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                // Check if amount field is empty
+	                if (amountField.getText().isEmpty()) {
+	                    // Show pop-up message
+	                    JOptionPane.showMessageDialog(newFrame, "Please enter the amount.", "Error", JOptionPane.ERROR_MESSAGE);
+	                    return; // Stop further execution
+	                }
+	                
+	                // Get amount and total fee
+	                double amount = Double.parseDouble(amountField.getText());
+	                double totalFee = Double.parseDouble(totalFeeValueLabel.getText());
+	                
+	                // Calculate balance
+	                double balance = totalFee - amount;
+	                if (balance <= 0) {
+	                    balance = 0;
+	                    // Mark payment as cleared
+	                    balanceValueLabel.setText("Cleared");
+	                } else {
+	                    balanceValueLabel.setText(String.valueOf(balance));
+	                }
+	                
+	                // Update paid fee
+	                double paidFee = totalFee - balance;
+	                paidFeeValueLabel.setText(String.valueOf(paidFee));
+	            }
+	        });
+	        buttonPanel.add(submitButton);
+	
+	        // Add the button panel to the main panel
+	        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+	        newFrame.setSize(600, 600);
+	        newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        newFrame.setVisible(true);
+	        newFrame.setLocationRelativeTo(null);
+	    }
+	
+	 // Method to open window for other functionalities
+	    private void openNewWindow6(JFrame previousFrame) {
+	        // Create a new JFrame for displaying other functionalities
+	        JFrame newFrame6 = new JFrame("Others");
+	        
+	        // Create a JPanel to hold components
+	        JPanel newPanel6 = new JPanel();
+	        newPanel6.setBackground(Color.white);
+	        newFrame6.add(newPanel6);
+	
+	        // Add a label to describe the purpose of the window
+	        JLabel othersLabel = new JLabel("Other functionalities:");
+	        newPanel6.add(othersLabel);
+	
+	        // Add a JComboBox to allow selection of different features
+	        JComboBox<String> functionalityComboBox = new JComboBox<>(new String[]{"Feature 1", "Feature 2", "Feature 3"});
+	        newPanel6.add(functionalityComboBox);
+	
+	        // Add a button to go back to the previous window
+	        JButton backButton = createStyledButton("Back");
+	        backButton.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                previousFrame.setVisible(true);
+	                // Show the previous frame
+	                newFrame6.dispose(); 
+	                // Close the current frame
+	            }
+	        });
+	        newPanel6.add(backButton);
+	
+	        // Configure frame settings
+	        newFrame6.setSize(600, 600);
+	        newFrame6.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        newFrame6.setVisible(true);
+	        newFrame6.setLocationRelativeTo(null);
+	        // Center frame on screen
+	    }
+	
+	    // Main method
+	    public static void main(String[] args) {
+	        // Run GUI application on the Event Dispatch Thread
+	        SwingUtilities.invokeLater(new Runnable() {
+	            // Implement the run method of the Runnable interface
+	            public void run() {
+	                // Create an instance of SchoolManagementSystemGUI class
+	                new SchoolManagementSystemGUI();
+	            }
+	        });
+	    }
+	
+	}
